@@ -1,0 +1,2049 @@
+﻿<?xml version="1.0"?>
+<DTS:Executable xmlns:DTS="www.microsoft.com/SqlServer/Dts"
+  DTS:refId="Package"
+  DTS:CreationDate="1/30/2018 10:53:27 AM"
+  DTS:CreationName="Microsoft.Package"
+  DTS:CreatorComputerName="ACAO7"
+  DTS:CreatorName="ENTICENT\andy.cao"
+  DTS:DTSID="{0BAEAB22-BCC0-4CC3-ACC8-33A2E30AC574}"
+  DTS:ExecutableType="Microsoft.Package"
+  DTS:LastModifiedProductVersion="14.0.3006.16"
+  DTS:LocaleID="1033"
+  DTS:ObjectName="ECSG2_AgencyAccount"
+  DTS:PackageType="5"
+  DTS:ProtectionLevel="0"
+  DTS:VersionBuild="19"
+  DTS:VersionGUID="{3CF002F2-85C2-4FDC-AB34-22AC04E39A13}">
+  <DTS:Property
+    DTS:Name="PackageFormatVersion">8</DTS:Property>
+  <DTS:ConnectionManagers>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[10.102.146.12.ECSG2.AndyCao]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{0D66D639-BEEC-4C4D-B972-E2FEEE1E4AC5}"
+      DTS:ObjectName="10.102.146.12.ECSG2.AndyCao">
+      <DTS:PropertyExpression
+        DTS:Name="ConnectionString">@[User::strSourceConnection]</DTS:PropertyExpression>
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=10.102.146.12;User ID=AndyCao;Initial Catalog=ECSG2;Provider=SQLNCLI11.1;Auto Translate=False;">
+          <DTS:Password
+            DTS:Name="Password"
+            Sensitive="1"></DTS:Password>
+        </DTS:ConnectionManager>
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+    <DTS:ConnectionManager
+      DTS:refId="Package.ConnectionManagers[ACAO7\CAO]"
+      DTS:CreationName="OLEDB"
+      DTS:DTSID="{586ADA0F-F433-476B-8AF9-9FCE2004A8C3}"
+      DTS:ObjectName="ACAO7\CAO">
+      <DTS:ObjectData>
+        <DTS:ConnectionManager
+          DTS:ConnectionString="Data Source=ACAO7\CAO;Initial Catalog=Applied;Provider=SQLNCLI11.1;Integrated Security=SSPI;Auto Translate=False;" />
+      </DTS:ObjectData>
+    </DTS:ConnectionManager>
+  </DTS:ConnectionManagers>
+  <DTS:Variables>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{67B6A976-6989-4217-8F52-3C9005F52F8E}"
+      DTS:EvaluateAsExpression="True"
+      DTS:Expression="@[System::PackageName]"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strPackageName">
+      <DTS:VariableValue
+        DTS:DataType="8">ECSG2_AgencyAccount</DTS:VariableValue>
+    </DTS:Variable>
+    <DTS:Variable
+      DTS:CreationName=""
+      DTS:DTSID="{4F58EC96-2AEF-45B7-8088-8060B2497B35}"
+      DTS:IncludeInDebugDump="2345"
+      DTS:Namespace="User"
+      DTS:ObjectName="strSourceConnection">
+      <DTS:VariableValue
+        DTS:DataType="8">Data Source=10.102.146.12;User ID=AndyCao;Password=xxxyyyzzz;Initial Catalog=ECSG2;Provider=SQLNCLI11.1;Auto Translate=False;</DTS:VariableValue>
+    </DTS:Variable>
+  </DTS:Variables>
+  <DTS:Executables>
+    <DTS:Executable
+      DTS:refId="Package\Log Package Execution"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute TRUNCATE command"
+      DTS:DTSID="{7BE25A79-7113-428A-B863-7D5BF865F065}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Log Package Execution"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{586ADA0F-F433-476B-8AF9-9FCE2004A8C3}"
+          SQLTask:SqlStatementSource="UPDATE Staging_Package_Log SET LastProcessedOn= ? WHERE PackageName = ?;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask">
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="0"
+            SQLTask:DtsVariableName="System::StartTime"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="7"
+            SQLTask:ParameterSize="-1" />
+          <SQLTask:ParameterBinding
+            SQLTask:ParameterName="1"
+            SQLTask:DtsVariableName="User::strPackageName"
+            SQLTask:ParameterDirection="Input"
+            SQLTask:DataType="129"
+            SQLTask:ParameterSize="-1" />
+        </SQLTask:SqlTaskData>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\Read from ECSG2"
+      DTS:CreationName="Microsoft.Pipeline"
+      DTS:Description="Data Flow Task"
+      DTS:DTSID="{3D0AF736-665F-4FC6-9CC6-39FDE9451AD0}"
+      DTS:ExecutableType="Microsoft.Pipeline"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="Read from ECSG2"
+      DTS:TaskContact="Performs high-performance data extraction, transformation and loading;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <pipeline
+          version="1">
+          <components>
+            <component
+              refId="Package\Read from ECSG2\Data Conversion"
+              componentClassID="Microsoft.DataConvert"
+              contactInfo="Data Conversion;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;0"
+              description="Data Conversion"
+              name="Data Conversion"
+              usesDispositions="true">
+              <inputs>
+                <input
+                  refId="Package\Read from ECSG2\Data Conversion.Inputs[Data Conversion Input]"
+                  name="Data Conversion Input">
+                  <externalMetadataColumns />
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Output]"
+                  exclusionGroup="1"
+                  name="Data Conversion Output"
+                  synchronousInputId="Package\Read from ECSG2\Data Conversion.Inputs[Data Conversion Input]">
+                  <externalMetadataColumns />
+                </output>
+                <output
+                  refId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="Data Conversion Error Output"
+                  synchronousInputId="Package\Read from ECSG2\Data Conversion.Inputs[Data Conversion Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Read from ECSG2\OLE DB Destination"
+              componentClassID="Microsoft.OLEDBDestination"
+              contactInfo="OLE DB Destination;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;4"
+              description="OLE DB Destination"
+              name="OLE DB Destination"
+              usesDispositions="true"
+              version="4">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AgencyAccount_Staging]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">3</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the values supplied for identity columns will be copied to the destination. If false, values for identity columns will be auto-generated at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepIdentity">false</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Indicates whether the columns containing null will have null inserted in the destination. If false, columns containing null will have their default values inserted at the destination. Applies only if fast load is turned on."
+                  name="FastLoadKeepNulls">false</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies options to be used with fast load.  Applies only if fast load is turned on."
+                  name="FastLoadOptions">TABLOCK,CHECK_CONSTRAINTS</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies when commits are issued during data insertion.  A value of 0 specifies that one commit will be issued at the end of data insertion.  Applies only if fast load is turned on."
+                  name="FastLoadMaxInsertCommitSize">123456</property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Read from ECSG2\OLE DB Destination.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[ACAO7\CAO]"
+                  connectionManagerRefId="Package.ConnectionManagers[ACAO7\CAO]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <inputs>
+                <input
+                  refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input]"
+                  errorOrTruncationOperation="Insert"
+                  errorRowDisposition="FailComponent"
+                  hasSideEffects="true"
+                  name="OLE DB Destination Input">
+                  <inputColumns>
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[CountryCode]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="3"
+                      cachedName="CountryCode"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyAccountKey]"
+                      cachedDataType="i4"
+                      cachedName="AgencyAccountKey"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyAccountKey]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccountKey]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyAccount]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="AgencyAccount"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyAccount]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccount]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="75"
+                      cachedName="AgencyName"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyName]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyName]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AlternateAgencyName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="75"
+                      cachedName="AlternateAgencyName"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AlternateAgencyName]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlternateAgencyName]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyPhone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="AgencyPhone"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyPhone]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyPhone]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[NormalizedAgencyPhone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="NormalizedAgencyPhone"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NormalizedAgencyPhone]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[NormalizedAgencyPhone]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyFax]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="AgencyFax"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyFax]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyFax]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyEmail]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="AgencyEmail"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyEmail]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmail]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationStreet]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="60"
+                      cachedName="LocationStreet"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationStreet]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationStreet2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="40"
+                      cachedName="LocationStreet2"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationStreet2]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet2]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationCity]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="LocationCity"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationCity]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationCity]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationState]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="LocationState"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationState]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationState]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LocationZip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="LocationZip"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationZip]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationZip]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MailingStreet]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="60"
+                      cachedName="MailingStreet"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingStreet]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MailingStreet2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="40"
+                      cachedName="MailingStreet2"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingStreet2]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet2]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MailingCity]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="MailingCity"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingCity]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingCity]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MailingState]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="MailingState"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingState]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingState]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[MailingZip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="MailingZip"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingZip]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingZip]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact1Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact1Name"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Name]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Name]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact1Phone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact1Phone"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Phone]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Phone]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact1Fax]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact1Fax"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Fax]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Fax]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact2Name]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact2Name"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Name]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Name]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact2Phone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact2Phone"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Phone]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Phone]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[Contact2Fax]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="Contact2Fax"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Fax]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Fax]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[VendorProductVersionKey]"
+                      cachedDataType="i4"
+                      cachedName="VendorProductVersionKey"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VendorProductVersionKey]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorProductVersionKey]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LastAmsUpdate]"
+                      cachedDataType="dbTimeStamp"
+                      cachedName="LastAmsUpdate"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastAmsUpdate]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastAmsUpdate]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingStreet]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="60"
+                      cachedName="BillingStreet"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingStreet]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingStreet2]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="40"
+                      cachedName="BillingStreet2"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingStreet2]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet2]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingCity]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="BillingCity"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingCity]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingCity]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingState]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="2"
+                      cachedName="BillingState"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingState]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingState]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingZip]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="12"
+                      cachedName="BillingZip"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingZip]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingZip]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingContactName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="BillingContactName"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactName]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactName]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingContactPhone]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="30"
+                      cachedName="BillingContactPhone"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactPhone]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactPhone]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[BillingContactEmail]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="BillingContactEmail"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactEmail]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactEmail]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[PurchaseOrderNumber]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="25"
+                      cachedName="PurchaseOrderNumber"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderNumber]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[PurchaseOrderNumber]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[VendorUpdateSource]"
+                      cachedDataType="i4"
+                      cachedName="VendorUpdateSource"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VendorUpdateSource]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorUpdateSource]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[LockAmsrUpdating]"
+                      cachedDataType="bool"
+                      cachedName="LockAmsrUpdating"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LockAmsrUpdating]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LockAmsrUpdating]" />
+                    <inputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].Columns[AgencyEmailDomainName]"
+                      cachedCodepage="1252"
+                      cachedDataType="str"
+                      cachedLength="50"
+                      cachedName="AgencyEmailDomainName"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyEmailDomainName]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmailDomainName]" />
+                  </inputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyAccountKey]"
+                      dataType="i4"
+                      name="AgencyAccountKey" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyAccount]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="AgencyAccount" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      name="AgencyName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AlternateAgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      name="AlternateAgencyName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="AgencyPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[NormalizedAgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="NormalizedAgencyPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyFax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="AgencyFax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="AgencyEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="LocationStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="LocationStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="LocationCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="LocationState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LocationZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="LocationZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="MailingStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="MailingStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="MailingCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="MailingState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[MailingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="MailingZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Name" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact1Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Name" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[Contact2Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VendorProductVersionKey]"
+                      dataType="i4"
+                      name="VendorProductVersionKey" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LastAmsUpdate]"
+                      dataType="dbTimeStamp"
+                      name="LastAmsUpdate" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="BillingStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="BillingStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BillingCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="BillingState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="BillingZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="BillingContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="BillingContactPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[BillingContactEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BillingContactEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[PurchaseOrderNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="PurchaseOrderNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[VendorUpdateSource]"
+                      dataType="i4"
+                      name="VendorUpdateSource" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[LockAmsrUpdating]"
+                      dataType="bool"
+                      name="LockAmsrUpdating" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[AgencyEmailDomainName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="AgencyEmailDomainName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input].ExternalColumns[CountryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CountryCode" />
+                  </externalMetadataColumns>
+                </input>
+              </inputs>
+              <outputs>
+                <output
+                  refId="Package\Read from ECSG2\OLE DB Destination.Outputs[OLE DB Destination Error Output]"
+                  exclusionGroup="1"
+                  isErrorOut="true"
+                  name="OLE DB Destination Error Output"
+                  synchronousInputId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input]">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Destination.Outputs[OLE DB Destination Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+            <component
+              refId="Package\Read from ECSG2\OLE DB Source"
+              componentClassID="Microsoft.OLEDBSource"
+              contactInfo="OLE DB Source;Microsoft Corporation; Microsoft SQL Server; (C) Microsoft Corporation; All Rights Reserved; http://www.microsoft.com/sql/support;7"
+              description="OLE DB Source"
+              name="OLE DB Source"
+              usesDispositions="true"
+              version="7">
+              <properties>
+                <property
+                  dataType="System.Int32"
+                  description="The number of seconds before a command times out.  A value of 0 indicates an infinite time-out."
+                  name="CommandTimeout">0</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the name of the database object used to open a rowset."
+                  name="OpenRowset">[dbo].[AgencyAccount]</property>
+                <property
+                  dataType="System.String"
+                  description="Specifies the variable that contains the name of the database object used to open a rowset."
+                  name="OpenRowsetVariable"></property>
+                <property
+                  dataType="System.String"
+                  description="The SQL command to be executed."
+                  name="SqlCommand"
+                  UITypeEditor="Microsoft.DataTransformationServices.Controls.ModalMultilineStringEditor"></property>
+                <property
+                  dataType="System.String"
+                  description="The variable that contains the SQL command to be executed."
+                  name="SqlCommandVariable"></property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the column code page to use when code page information is unavailable from the data source."
+                  name="DefaultCodePage">1252</property>
+                <property
+                  dataType="System.Boolean"
+                  description="Forces the use of the DefaultCodePage property value when describing character data."
+                  name="AlwaysUseDefaultCodePage">false</property>
+                <property
+                  dataType="System.Int32"
+                  description="Specifies the mode used to access the database."
+                  name="AccessMode"
+                  typeConverter="AccessMode">0</property>
+                <property
+                  dataType="System.String"
+                  description="The mappings between the parameters in the SQL command and variables."
+                  name="ParameterMapping"></property>
+              </properties>
+              <connections>
+                <connection
+                  refId="Package\Read from ECSG2\OLE DB Source.Connections[OleDbConnection]"
+                  connectionManagerID="Package.ConnectionManagers[10.102.146.12.ECSG2.AndyCao]"
+                  connectionManagerRefId="Package.ConnectionManagers[10.102.146.12.ECSG2.AndyCao]"
+                  description="The OLE DB runtime connection used to access the database."
+                  name="OleDbConnection" />
+              </connections>
+              <outputs>
+                <output
+                  refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output]"
+                  name="OLE DB Source Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CountryCode]"
+                      length="3"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[CountryCode]"
+                      name="CountryCode"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccountKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyAccountKey]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccountKey]"
+                      name="AgencyAccountKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccount]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyAccount]"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyAccount]"
+                      name="AgencyAccount"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyName]"
+                      length="75"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyName]"
+                      name="AgencyName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlternateAgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AlternateAgencyName]"
+                      length="75"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AlternateAgencyName]"
+                      name="AlternateAgencyName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyPhone]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyPhone]"
+                      name="AgencyPhone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[NormalizedAgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NormalizedAgencyPhone]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[NormalizedAgencyPhone]"
+                      name="NormalizedAgencyPhone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyFax]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyFax]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyFax]"
+                      name="AgencyFax"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyEmail]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmail]"
+                      name="AgencyEmail"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationStreet]"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet]"
+                      name="LocationStreet"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationStreet2]"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationStreet2]"
+                      name="LocationStreet2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationCity]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationCity]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationCity]"
+                      name="LocationCity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationState]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationState]"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationState]"
+                      name="LocationState"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationZip]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationZip]"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LocationZip]"
+                      name="LocationZip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingStreet]"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet]"
+                      name="MailingStreet"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingStreet2]"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingStreet2]"
+                      name="MailingStreet2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingCity]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingCity]"
+                      name="MailingCity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingState]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingState]"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingState]"
+                      name="MailingState"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingZip]"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[MailingZip]"
+                      name="MailingZip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Name]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Name]"
+                      name="Contact1Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Phone]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Phone]"
+                      name="Contact1Phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Fax]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact1Fax]"
+                      name="Contact1Fax"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Name]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Name]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Name]"
+                      name="Contact2Name"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Phone]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Phone]"
+                      name="Contact2Phone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Fax]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[Contact2Fax]"
+                      name="Contact2Fax"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorProductVersionKey]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[VendorProductVersionKey]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorProductVersionKey]"
+                      name="VendorProductVersionKey"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastAmsUpdate]"
+                      dataType="dbTimeStamp"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastAmsUpdate]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LastAmsUpdate]"
+                      name="LastAmsUpdate"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingStreet]"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet]"
+                      name="BillingStreet"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingStreet2]"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingStreet2]"
+                      name="BillingStreet2"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingCity]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingCity]"
+                      name="BillingCity"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingState]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingState]"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingState]"
+                      name="BillingState"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingZip]"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingZip]"
+                      name="BillingZip"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactName]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactName]"
+                      name="BillingContactName"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactPhone]"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactPhone]"
+                      name="BillingContactPhone"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactEmail]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[BillingContactEmail]"
+                      name="BillingContactEmail"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[PurchaseOrderNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PurchaseOrderNumber]"
+                      length="25"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[PurchaseOrderNumber]"
+                      name="PurchaseOrderNumber"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorUpdateSource]"
+                      dataType="i4"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[VendorUpdateSource]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[VendorUpdateSource]"
+                      name="VendorUpdateSource"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LockAmsrUpdating]"
+                      dataType="bool"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LockAmsrUpdating]"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[LockAmsrUpdating]"
+                      name="LockAmsrUpdating"
+                      truncationRowDisposition="FailComponent" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmailDomainName]"
+                      codePage="1252"
+                      dataType="str"
+                      errorOrTruncationOperation="Conversion"
+                      errorRowDisposition="FailComponent"
+                      externalMetadataColumnId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyEmailDomainName]"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].Columns[AgencyEmailDomainName]"
+                      name="AgencyEmailDomainName"
+                      truncationRowDisposition="FailComponent" />
+                  </outputColumns>
+                  <externalMetadataColumns
+                    isUsed="True">
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[CountryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      name="CountryCode" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyAccountKey]"
+                      dataType="i4"
+                      name="AgencyAccountKey" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyAccount]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="AgencyAccount" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      name="AgencyName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AlternateAgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      name="AlternateAgencyName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="AgencyPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[NormalizedAgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="NormalizedAgencyPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyFax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="AgencyFax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="AgencyEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="LocationStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="LocationStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="LocationCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="LocationState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LocationZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="LocationZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="MailingStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="MailingStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="MailingCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="MailingState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[MailingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="MailingZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Name" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact1Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact1Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Name" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Phone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[Contact2Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="Contact2Fax" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[VendorProductVersionKey]"
+                      dataType="i4"
+                      name="VendorProductVersionKey" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LastAmsUpdate]"
+                      dataType="dbTimeStamp"
+                      name="LastAmsUpdate" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      name="BillingStreet" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      name="BillingStreet2" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BillingCity" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      name="BillingState" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      name="BillingZip" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="BillingContactName" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      name="BillingContactPhone" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[BillingContactEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="BillingContactEmail" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[PurchaseOrderNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      name="PurchaseOrderNumber" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[VendorUpdateSource]"
+                      dataType="i4"
+                      name="VendorUpdateSource" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[LockAmsrUpdating]"
+                      dataType="bool"
+                      name="LockAmsrUpdating" />
+                    <externalMetadataColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output].ExternalColumns[AgencyEmailDomainName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      name="AgencyEmailDomainName" />
+                  </externalMetadataColumns>
+                </output>
+                <output
+                  refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output]"
+                  isErrorOut="true"
+                  name="OLE DB Source Error Output">
+                  <outputColumns>
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyAccountKey]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyAccountKey]"
+                      name="AgencyAccountKey" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyAccount]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyAccount]"
+                      name="AgencyAccount" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyName]"
+                      name="AgencyName" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AlternateAgencyName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="75"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AlternateAgencyName]"
+                      name="AlternateAgencyName" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyPhone]"
+                      name="AgencyPhone" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NormalizedAgencyPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[NormalizedAgencyPhone]"
+                      name="NormalizedAgencyPhone" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyFax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyFax]"
+                      name="AgencyFax" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyEmail]"
+                      name="AgencyEmail" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationStreet]"
+                      name="LocationStreet" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationStreet2]"
+                      name="LocationStreet2" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationCity]"
+                      name="LocationCity" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationState]"
+                      name="LocationState" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LocationZip]"
+                      name="LocationZip" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingStreet]"
+                      name="MailingStreet" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingStreet2]"
+                      name="MailingStreet2" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingCity]"
+                      name="MailingCity" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingState]"
+                      name="MailingState" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[MailingZip]"
+                      name="MailingZip" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Name]"
+                      name="Contact1Name" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Phone]"
+                      name="Contact1Phone" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact1Fax]"
+                      name="Contact1Fax" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Name]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Name]"
+                      name="Contact2Name" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Phone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Phone]"
+                      name="Contact2Phone" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Fax]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[Contact2Fax]"
+                      name="Contact2Fax" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[VendorProductVersionKey]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[VendorProductVersionKey]"
+                      name="VendorProductVersionKey" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastAmsUpdate]"
+                      dataType="dbTimeStamp"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LastAmsUpdate]"
+                      name="LastAmsUpdate" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingStreet]"
+                      codePage="1252"
+                      dataType="str"
+                      length="60"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingStreet]"
+                      name="BillingStreet" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingStreet2]"
+                      codePage="1252"
+                      dataType="str"
+                      length="40"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingStreet2]"
+                      name="BillingStreet2" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingCity]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingCity]"
+                      name="BillingCity" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingState]"
+                      codePage="1252"
+                      dataType="str"
+                      length="2"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingState]"
+                      name="BillingState" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingZip]"
+                      codePage="1252"
+                      dataType="str"
+                      length="12"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingZip]"
+                      name="BillingZip" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactName]"
+                      name="BillingContactName" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactPhone]"
+                      codePage="1252"
+                      dataType="str"
+                      length="30"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactPhone]"
+                      name="BillingContactPhone" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactEmail]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[BillingContactEmail]"
+                      name="BillingContactEmail" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PurchaseOrderNumber]"
+                      codePage="1252"
+                      dataType="str"
+                      length="25"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[PurchaseOrderNumber]"
+                      name="PurchaseOrderNumber" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[VendorUpdateSource]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[VendorUpdateSource]"
+                      name="VendorUpdateSource" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LockAmsrUpdating]"
+                      dataType="bool"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[LockAmsrUpdating]"
+                      name="LockAmsrUpdating" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyEmailDomainName]"
+                      codePage="1252"
+                      dataType="str"
+                      length="50"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[AgencyEmailDomainName]"
+                      name="AgencyEmailDomainName" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CountryCode]"
+                      codePage="1252"
+                      dataType="str"
+                      length="3"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[CountryCode]"
+                      name="CountryCode" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorCode]"
+                      name="ErrorCode"
+                      specialFlags="1" />
+                    <outputColumn
+                      refId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      dataType="i4"
+                      lineageId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Error Output].Columns[ErrorColumn]"
+                      name="ErrorColumn"
+                      specialFlags="2" />
+                  </outputColumns>
+                  <externalMetadataColumns />
+                </output>
+              </outputs>
+            </component>
+          </components>
+          <paths>
+            <path
+              refId="Package\Read from ECSG2.Paths[Data Conversion Output]"
+              endId="Package\Read from ECSG2\OLE DB Destination.Inputs[OLE DB Destination Input]"
+              name="Data Conversion Output"
+              startId="Package\Read from ECSG2\Data Conversion.Outputs[Data Conversion Output]" />
+            <path
+              refId="Package\Read from ECSG2.Paths[OLE DB Source Output]"
+              endId="Package\Read from ECSG2\Data Conversion.Inputs[Data Conversion Input]"
+              name="OLE DB Source Output"
+              startId="Package\Read from ECSG2\OLE DB Source.Outputs[OLE DB Source Output]" />
+          </paths>
+        </pipeline>
+      </DTS:ObjectData>
+    </DTS:Executable>
+    <DTS:Executable
+      DTS:refId="Package\TRUNCATE Staging Table"
+      DTS:CreationName="Microsoft.ExecuteSQLTask"
+      DTS:Description="Execute TRUNCATE command"
+      DTS:DTSID="{9E20485B-29E4-4B42-B12D-F16E8F807B96}"
+      DTS:ExecutableType="Microsoft.ExecuteSQLTask"
+      DTS:LocaleID="-1"
+      DTS:ObjectName="TRUNCATE Staging Table"
+      DTS:TaskContact="Execute SQL Task; Microsoft Corporation; SQL Server 2017 RC1; © 2017 Microsoft Corporation; All Rights Reserved;http://www.microsoft.com/sql/support/default.asp;1"
+      DTS:ThreadHint="0">
+      <DTS:Variables />
+      <DTS:ObjectData>
+        <SQLTask:SqlTaskData
+          SQLTask:Connection="{586ADA0F-F433-476B-8AF9-9FCE2004A8C3}"
+          SQLTask:SqlStatementSource="TRUNCATE TABLE AgencyAccount_Staging;" xmlns:SQLTask="www.microsoft.com/sqlserver/dts/tasks/sqltask" />
+      </DTS:ObjectData>
+    </DTS:Executable>
+  </DTS:Executables>
+  <DTS:PrecedenceConstraints>
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint]"
+      DTS:CreationName=""
+      DTS:DTSID="{5ADCF5F1-B48A-4759-97E7-9BCFCC9EC11A}"
+      DTS:From="Package\TRUNCATE Staging Table"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint"
+      DTS:To="Package\Read from ECSG2" />
+    <DTS:PrecedenceConstraint
+      DTS:refId="Package.PrecedenceConstraints[Constraint 1]"
+      DTS:CreationName=""
+      DTS:DTSID="{10862FA7-6FCB-4B9F-8FE8-7E8CFD7E96DB}"
+      DTS:From="Package\Read from ECSG2"
+      DTS:LogicalAnd="True"
+      DTS:ObjectName="Constraint 1"
+      DTS:To="Package\Log Package Execution" />
+  </DTS:PrecedenceConstraints>
+  <DTS:DesignTimeProperties><![CDATA[<?xml version="1.0"?>
+<!--This CDATA section contains the layout information of the package. The section includes information such as (x,y) coordinates, width, and height.-->
+<!--If you manually edit this section and make a mistake, you can delete it. -->
+<!--The package will still be able to load normally but the previous layout information will be lost and the designer will automatically re-arrange the elements on the design surface.-->
+<Objects
+  Version="8">
+  <!--Each node below will contain properties that do not affect runtime behavior.-->
+  <Package
+    design-time-name="Package">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml">
+        <NodeLayout
+          Size="187,42"
+          Id="Package\Log Package Execution"
+          TopLeft="206,371" />
+        <NodeLayout
+          Size="163,42"
+          Id="Package\Read from ECSG2"
+          TopLeft="149,270" />
+        <NodeLayout
+          Size="199,42"
+          Id="Package\TRUNCATE Staging Table"
+          TopLeft="79,149" />
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint]"
+          TopLeft="178.5,191">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="52,79"
+              Start="0,0"
+              End="52,71.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,35.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,35.5"
+                    Point2="0,39.5"
+                    Point3="4,39.5" />
+                  <mssgle:LineSegment
+                    End="48,39.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="48,39.5"
+                    Point2="52,39.5"
+                    Point3="52,43.5" />
+                  <mssgle:LineSegment
+                    End="52,71.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package.PrecedenceConstraints[Constraint 1]"
+          TopLeft="230.5,312">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69,59"
+              Start="0,0"
+              End="69,51.5">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,25.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,25.5"
+                    Point2="0,29.5"
+                    Point3="4,29.5" />
+                  <mssgle:LineSegment
+                    End="65,29.5" />
+                  <mssgle:CubicBezierSegment
+                    Point1="65,29.5"
+                    Point2="69,29.5"
+                    Point3="69,33.5" />
+                  <mssgle:LineSegment
+                    End="69,51.5" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <EdgeLabelCollection />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </Package>
+  <TaskHost
+    design-time-name="Package\Read from ECSG2">
+    <LayoutInfo>
+      <GraphLayout
+        Capacity="8" xmlns="clr-namespace:Microsoft.SqlServer.IntegrationServices.Designer.Model.Serialization;assembly=Microsoft.SqlServer.IntegrationServices.Graph" xmlns:mssgle="clr-namespace:Microsoft.SqlServer.Graph.LayoutEngine;assembly=Microsoft.SqlServer.Graph" xmlns:assembly="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:mssgm="clr-namespace:Microsoft.SqlServer.Graph.Model;assembly=Microsoft.SqlServer.Graph">
+        <NodeLayout
+          Size="150,42"
+          Id="Package\Read from ECSG2\OLE DB Source"
+          TopLeft="68.5,89.5" />
+        <NodeLayout
+          Size="156,42"
+          Id="Package\Read from ECSG2\Data Conversion"
+          TopLeft="135,223" />
+        <NodeLayout
+          Size="171,42"
+          Id="Package\Read from ECSG2\OLE DB Destination"
+          TopLeft="241.5,335.5" />
+        <EdgeLayout
+          Id="Package\Read from ECSG2.Paths[OLE DB Source Output]"
+          TopLeft="143.5,131.5">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="69.5,91.5"
+              Start="0,0"
+              End="69.5,84">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,41.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,41.75"
+                    Point2="0,45.75"
+                    Point3="4,45.75" />
+                  <mssgle:LineSegment
+                    End="65.5,45.75" />
+                  <mssgle:CubicBezierSegment
+                    Point1="65.5,45.75"
+                    Point2="69.5,45.75"
+                    Point3="69.5,49.75" />
+                  <mssgle:LineSegment
+                    End="69.5,84" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+        <EdgeLayout
+          Id="Package\Read from ECSG2.Paths[Data Conversion Output]"
+          TopLeft="213,265">
+          <EdgeLayout.Curve>
+            <mssgle:Curve
+              StartConnector="{assembly:Null}"
+              EndConnector="114,70.5"
+              Start="0,0"
+              End="114,63">
+              <mssgle:Curve.Segments>
+                <mssgle:SegmentCollection
+                  Capacity="5">
+                  <mssgle:LineSegment
+                    End="0,31.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="0,31.25"
+                    Point2="0,35.25"
+                    Point3="4,35.25" />
+                  <mssgle:LineSegment
+                    End="110,35.25" />
+                  <mssgle:CubicBezierSegment
+                    Point1="110,35.25"
+                    Point2="114,35.25"
+                    Point3="114,39.25" />
+                  <mssgle:LineSegment
+                    End="114,63" />
+                </mssgle:SegmentCollection>
+              </mssgle:Curve.Segments>
+            </mssgle:Curve>
+          </EdgeLayout.Curve>
+          <EdgeLayout.Labels>
+            <mssgm:EdgeLabel
+              BoundingBox="0,0,0,0"
+              RelativePosition="Any" />
+          </EdgeLayout.Labels>
+        </EdgeLayout>
+      </GraphLayout>
+    </LayoutInfo>
+  </TaskHost>
+  <PipelineComponentMetadata
+    design-time-name="Package\Read from ECSG2\OLE DB Source">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+  <PipelineComponentMetadata
+    design-time-name="Package\Read from ECSG2\OLE DB Destination">
+    <Properties>
+      <Property>
+        <Name>DataSourceViewID</Name>
+      </Property>
+      <Property>
+        <Name>TableInfoObjectType</Name>
+        <Value
+          type="q2:string">Table</Value>
+      </Property>
+    </Properties>
+  </PipelineComponentMetadata>
+</Objects>]]></DTS:DesignTimeProperties>
+</DTS:Executable>
